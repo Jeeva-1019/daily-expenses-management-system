@@ -1,0 +1,80 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <div class="text-center mb-4">
+      <h2>Daily Expenses</h2>
+      <p>Create your account</p>
+    </div>
+
+    <form (ngSubmit)="register()">
+
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          [(ngModel)]="name"
+          placeholder="Enter your name"
+          required>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          required>
+      </div>
+
+      <!-- Error -->
+      @if (errorMessage) {
+        <div class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Success -->
+      @if (successMessage) {
+        <div class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      }
+
+      <button
+        type="submit">Register</button>
+
+    </form>
+
+    <p class="login-text">
+      Already have an account?
+      <a routerLink="/login" class="ms-1">Login</a>
+    </p>
+
+  </div>
+
+</div>

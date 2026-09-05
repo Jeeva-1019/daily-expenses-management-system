@@ -1,0 +1,5 @@
+user_id,title,amount,category,expense_date,description
+6,petrol,1000.0,Bills,2026-08-19,Fill petrol for car
+6,Food Expenses,510.22,Food,2026-08-30,lunch at restaurant
+6,shopping,300.0,Shopping,2026-09-01,go to mall and purchase households
+5,groceries,3500.0,Other,2026-09-02,purchase groceries

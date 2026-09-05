@@ -1,0 +1,203 @@
+
+<div class="dashboard page-background">
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div>
+      <h1>💰 Daily Expenses</h1>
+      <p>Welcome, {{ userName }}</p>
+    </div>
+
+    <button class="logout-btn" (click)="logout()">
+  Logout
+</button>
+  </header>
+
+  <!-- Summary Cards -->
+  <div class="summary-container">
+
+  <div class="summary-card">
+    <h3>Total Expenses</h3>
+    <h2>₹{{ totalExpenses | number:'1.2-2' }}</h2>
+  </div>
+
+  <div class="summary-card">
+    <h3>This Month</h3>
+    <h2>₹{{ monthlyExpenses | number:'1.2-2' }}</h2>
+  </div>
+
+  <div class="summary-card">
+    <h3>Today</h3>
+    <h2>₹{{ todayExpenses | number:'1.2-2' }}</h2>
+  </div>
+
+  <div class="summary-card">
+    <h3>Total Categories</h3>
+    <h2>{{ totalCategories }}</h2>
+  </div>
+
+  <div class="summary-card">
+    <h3>Top Category</h3>
+    <h2>{{ topCategory }}</h2>
+
+    @if (topCategoryAmount > 0) {
+      <p>
+        ₹{{ topCategoryAmount | number:'1.2-2' }}
+      </p>
+    }
+
+  </div>
+
+</div>
+
+<!-- Python Data Analyst -->
+<div class="analytics-container">
+
+  <div class="analytics-card">
+    <h3>🤖 AI Total Spending</h3>
+    <h2>₹{{ totalSpending | number:'1.2-2' }}</h2>
+  </div>
+
+  <div class="analytics-card">
+    <h3>📊 Average Expense</h3>
+    <h2>₹{{ averageExpense | number:'1.2-2' }}</h2>
+  </div>
+
+  <div class="analytics-card">
+    <h3>🏆 AI Top Category</h3>
+    <h2>{{ topCategory || 'No data' }}</h2>
+  </div>
+
+  <div class="analytics-card analytics-insight">
+  <h3>🤖 AI Spending Insight</h3>
+
+  <p>
+    {{ analyticsInsight }}
+  </p>
+</div>
+
+</div>
+
+  <!-- Actions -->
+<!-- Actions -->
+<div class="dashboard-content">
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+  <!-- Category-wise Expense Chart -->
+  <div class="section-card chart-card">
+
+    <div class="section-header">
+      <h2>Category-wise Expenses</h2>
+    </div>
+
+    <div class="chart-container">
+
+      <canvas
+        baseChart
+        [data]="categoryChartDataConfig"
+        [type]="categoryChartType"
+        [options]="categoryChartOptions">
+      </canvas>
+
+    </div>
+
+  </div>
+</div>
+<div class="col-lg-6 col-md-12 col-sm-12">
+  <div class="section-card chart-card">
+
+  <div class="section-header">
+
+    <h2>Monthly Expenses</h2>
+
+  </div>
+
+  <div class="chart-container">
+
+    <canvas
+      baseChart
+      [data]="monthlyChartDataConfig"
+      [type]="monthlyChartType"
+      [options]="monthlyChartOptions">
+    </canvas>
+
+  </div>
+
+</div>
+</div>
+</div>
+
+  <!-- Recent Expenses -->
+  <div class="section-card">
+
+    <div class="section-header">
+
+      <h2>Recent Expenses</h2>
+
+      <div class="section-buttons">
+
+        <button
+          class="view-btn"
+          (click)="viewAllExpenses()">
+          View All
+        </button>
+
+        <button
+          class="add-btn"
+          (click)="addExpense()">
+          + Add Expense
+        </button>
+
+      </div>
+
+    </div>
+
+
+    @if (expenses.length === 0) {
+
+      <p class="empty-message">
+        No expenses found.
+      </p>
+
+    } @else {
+
+      <div class="recent-expenses">
+
+        @for (
+          expense of expenses.slice(0, 5);
+          track expense.id
+        ) {
+
+          <div class="expense-row">
+
+            <div class="expense-info">
+
+              <h3>{{ expense.title }}</h3>
+
+              <p>
+                {{ expense.category }} •
+                {{ expense.expense_date }}
+              </p>
+
+            </div>
+
+            <div class="expense-amount">
+
+              ₹{{ expense.amount | number:'1.2-2' }}
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+</div>
+

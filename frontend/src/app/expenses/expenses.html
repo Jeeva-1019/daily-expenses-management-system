@@ -1,0 +1,109 @@
+<div class="expenses-page page-background">
+
+  <div class="expenses-header">
+
+    <div>
+      <h1>Expenses</h1>
+      <p>Manage your daily expenses</p>
+    </div>
+
+    <div class="header-buttons">
+
+  <button
+    class="dashboard-btn"
+    (click)="goToDashboard()">
+    ← Dashboard
+  </button>
+
+  <button
+    class="add-expense-btn"
+    (click)="addExpense()">
+    + Add Expense
+  </button>
+
+</div>
+
+  </div>
+
+
+  <div class="expenses-card">
+
+    @if (expenses.length === 0) {
+
+      <div class="empty-message">
+        <h2>No expenses found</h2>
+        <p>Start adding your daily expenses.</p>
+      </div>
+
+    } @else {
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (expense of expenses; track expense.id) {
+
+              <tr>
+
+                <td>{{ expense.title }}</td>
+
+                <td>
+                  ₹{{ expense.amount }}
+                </td>
+
+                <td>
+                  {{ expense.category }}
+                </td>
+
+                <td>
+                  {{ expense.expense_date }}
+                </td>
+
+                <td>
+                  {{ expense.description || '-' }}
+                </td>
+
+                <td class="actions">
+                  <button
+                  class="edit-btn"
+                  (click)="editExpense(expense.id!)">
+                  Edit
+                  </button>
+                 
+                 <button
+                   class="delete-btn"
+                   (click)="deleteExpense(expense.id!)">
+                   Delete
+                  </button>
+                  
+               </td>
+               
+              </tr>
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </div>
+
+   
+
+</div>

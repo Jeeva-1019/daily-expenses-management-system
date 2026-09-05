@@ -1,0 +1,122 @@
+.add-expense-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.form-card h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.form-card > p {
+  text-align: center;
+  color: #777;
+  margin: 8px 0 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8dce5;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  transition: 0.2s;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  background: #667eea;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.25);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .add-expense-page {
+    padding: 20px 15px;
+  }
+
+  .form-card {
+    padding: 25px 20px;
+  }
+
+  .form-card h1 {
+    font-size: 26px;
+  }
+}
+
+.back-button-container {
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #6c757d;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #495057;
+  transform: translateY(-1px);
+}
