@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const { execFile } = require('child_process');
 const authenticateToken = require('./middleware/authMiddleware');
 const app = express();
@@ -241,6 +242,166 @@ app.post('/api/login', async (req, res) => {
       message: 'Server error'
     });
   }
+});
+
+app.post('/api/forgot-password', (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      message: 'Email is required'
+    });
+  }
+
+  const findUserSql = 'SELECT id, name, email FROM users WHERE email = ?';
+
+  db.query(findUserSql, [email], (error, results) => {
+
+    if (error) {
+      console.error('Forgot password error:', error);
+
+      return res.status(500).json({
+        message: 'Server error'
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: 'Email not found'
+      });
+    }
+
+    const user = results[0];
+
+    // Generate secure reset token
+    const token = crypto.randomBytes(32).toString('hex');
+
+    // Token expires after 15 minutes
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    const insertTokenSql = `
+      INSERT INTO password_resets
+      (user_id, token, expires_at)
+      VALUES (?, ?, ?)
+    `;
+
+    db.query(
+      insertTokenSql,
+      [user.id, token, expiresAt],
+      (error) => {
+
+        if (error) {
+          console.error('Token save error:', error);
+
+          return res.status(500).json({
+            message: 'Could not create reset token'
+          });
+        }
+
+        console.log('Password reset token:', token);
+
+        res.status(200).json({
+          message: 'Password reset token generated successfully',
+          token: token
+        });
+
+      }
+    );
+
+  });
+});
+
+app.post('/api/reset-password', async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token || !password) {
+    return res.status(400).json({
+      message: 'Token and password are required'
+    });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: 'Password must be at least 6 characters'
+    });
+  }
+
+  const findTokenSql = `
+    SELECT user_id
+    FROM password_resets
+    WHERE token = ?
+    AND expires_at > NOW()
+  `;
+
+  db.query(findTokenSql, [token], async (error, results) => {
+
+    if (error) {
+      console.error('Reset password error:', error);
+
+      return res.status(500).json({
+        message: 'Server error'
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(400).json({
+        message: 'Invalid or expired reset token'
+      });
+    }
+
+    const userId = results[0].user_id;
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const updatePasswordSql = `
+        UPDATE users
+        SET password = ?
+        WHERE id = ?
+      `;
+
+      db.query(
+        updatePasswordSql,
+        [hashedPassword, userId],
+        (error) => {
+
+          if (error) {
+            console.error('Password update error:', error);
+
+            return res.status(500).json({
+              message: 'Could not update password'
+            });
+          }
+
+          const deleteTokenSql = `
+            DELETE FROM password_resets
+            WHERE token = ?
+          `;
+
+          db.query(deleteTokenSql, [token], (error) => {
+
+            if (error) {
+              console.error('Token deletion error:', error);
+            }
+
+            res.status(200).json({
+              message: 'Password reset successfully'
+            });
+
+          });
+
+        }
+      );
+
+    } catch (error) {
+      console.error('Password hashing error:', error);
+
+      res.status(500).json({
+        message: 'Server error'
+      });
+    }
+
+  });
 });
 
 app.get('/api/expenses', authenticateToken, async (req, res) => {

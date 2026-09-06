@@ -6,6 +6,8 @@ import { authGuard } from './guards/auth-guard';
 import { Expenses } from './expenses/expenses';
 import { AddExpense } from './expenses/add-expense/add-expense';
 import { EditExpense } from './expenses/edit-expense/edit-expense';
+import { ForgotPassword } from './forgot-password/forgot-password';
+import { ResetPassword } from './reset-password/reset-password';
 
 export const routes: Routes = [
       {
@@ -16,6 +18,14 @@ export const routes: Routes = [
     path: 'register',
     component: Register
   },
+  {
+  path: 'forgot-password',
+  component: ForgotPassword
+},
+{
+  path: 'reset-password',
+  component: ResetPassword
+},
   {
     path: 'dashboard',
     component: Dashboard,
