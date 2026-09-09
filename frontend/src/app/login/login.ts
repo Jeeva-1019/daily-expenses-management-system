@@ -15,6 +15,7 @@ export class Login {
   password = '';
   errorMessage = '';
   successMessage = '';
+  showPassword= false;
 
   constructor(
     private auth: Auth,

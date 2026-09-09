@@ -23,19 +23,29 @@
           required>
       </div>
 
-      <!-- Password -->
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+    <!-- Password -->
+<div class="mb-3">
+  <label for="password" class="form-label">Password</label>
 
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="form-control"
-          [(ngModel)]="password"
-          placeholder="Enter your password"
-          required>
-      </div>
+  <div class="password-wrapper">
+
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      id="password"
+      name="password"
+      class="form-control"
+      [(ngModel)]="password"
+      placeholder="Enter your password"
+      required>
+
+     <i
+      [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"
+      class="password-eye"
+      (click)="showPassword = !showPassword">
+    </i>
+
+  </div>
+</div>
 
       <!-- Error -->
       @if (errorMessage) {
